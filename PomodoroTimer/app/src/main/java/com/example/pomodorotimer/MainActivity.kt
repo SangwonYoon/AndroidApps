@@ -62,14 +62,17 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onStartTrackingTouch(p0: SeekBar?) {
-                    currentCountDownTimer?.cancel()
-                    currentCountDownTimer = null
+                    stopCountDown()
                 }
 
                 override fun onStopTrackingTouch(p0: SeekBar?) {
                     p0 ?: return // ?:는 엘비스 연산자라고 불리며, 왼쪽 객체나 non-null이면 그 값이 리턴되고, null이면 오른쪽 값을 리턴한다.
 
-                    startCountDown()
+                    if(seekBar.progress == 0){
+                        stopCountDown()
+                    } else {
+                        startCountDown()
+                    }
                 }
             }
         )
@@ -96,6 +99,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun stopCountDown(){
+        currentCountDownTimer?.cancel()
+        currentCountDownTimer = null
+
+        soundPool.autoPause()
+    }
+
     private fun completeCountDown(){
         updateRemainTime(0)
         updateSeekBar(0)
@@ -109,7 +119,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateRemainTime(remainMillis : Long){ // 남은 시간을 보여주는 UI를 업데이트 해주는 함수
         val remainSeconds = remainMillis / 1000
 
-        remainMinutesTextView.text = "%02d".format(remainSeconds / 60)
+        remainMinutesTextView.text = "%02d'".format(remainSeconds / 60)
         remainSecondsTextView.text = "%02d".format(remainSeconds % 60)
     }
 
