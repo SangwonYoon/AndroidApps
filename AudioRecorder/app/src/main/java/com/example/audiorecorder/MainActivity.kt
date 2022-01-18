@@ -11,6 +11,14 @@ import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
 
+    private val soundVisualizerView: SoundVisualizerView by lazy{
+        findViewById(R.id.soundVisualizerView)
+    }
+
+    private val recordTimeTextView: CountUpView by lazy{
+        findViewById(R.id.recordTimeTextView)
+    }
+
     private val resetButton : Button by lazy{
         findViewById(R.id.resetButton)
     }
@@ -72,6 +80,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun bindViews(){
+        soundVisualizerView.onRequestCurrentAmplitude = { // soundVisualizerView의 onRequestCurrentAmplitude는 함수 타입, 컴파일 시 invoke라는 함수를 갖는 인터페이스가 되므로 invoke 함수를 구현해주는 코드이다.
+            recorder?.maxAmplitude ?: 0
+        }
         resetButton.setOnClickListener {
             stopPlaying()
             state = State.BEFORE_RECORDING
@@ -107,7 +118,8 @@ class MainActivity : AppCompatActivity() {
             prepare()
         }
         recorder?.start()
-
+        soundVisualizerView.startVisualizing(false)
+        recordTimeTextView.startCountUp()
         state = State.ON_RECORDING
     }
 
@@ -117,7 +129,8 @@ class MainActivity : AppCompatActivity() {
             release() // 메모리 해제
         }
         recorder = null
-
+        soundVisualizerView.stopVisualizing()
+        recordTimeTextView.stopCountUp()
         state = State.AFTER_RECORDING
     }
 
@@ -127,14 +140,16 @@ class MainActivity : AppCompatActivity() {
             prepare()
         }
         player?.start()
-
+        soundVisualizerView.startVisualizing(true)
+        recordTimeTextView.startCountUp()
         state = State.ON_PLAYING
     }
 
     private fun stopPlaying(){
         player?.release()
         player = null
-
+        soundVisualizerView.stopVisualizing()
+        recordTimeTextView.stopCountUp()
         state = State.AFTER_RECORDING
     }
 

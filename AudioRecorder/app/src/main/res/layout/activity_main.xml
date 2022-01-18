@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <com.example.audiorecorder.SoundVisualizerView
+        android:id="@+id/soundVisualizerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
@@ -25,7 +26,7 @@
         app:layout_constraintRight_toLeftOf="@id/recordButton"
         app:layout_constraintTop_toTopOf="@id/recordButton"/>
 
-    <TextView
+    <com.example.audiorecorder.CountUpView
         android:id="@+id/recordTimeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
