@@ -1,6 +1,6 @@
 # Audio Recorder
 
-Media Recorder를 통해 녹음을 하고, custom view로 오디오 시각화 기능을 가진 녹음기
+Media Recorder를 통해 녹음을 하고, custom view를 이용해 오디오 시각화 기능을 추가한 녹음기
 
 - Media Recorder 사용
 - Runtime Permission
